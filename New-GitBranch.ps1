@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory=$true)]
     [ValidateSet("feature", "bugfix", "refactor", "test", "build", "style", "docs", "perf", "security", "release", "u-design")]
     [string]$Category,
@@ -50,4 +50,7 @@ $branchName = "$Category/$TicketId" + "_" + $sanitizedDescription
 
 # Create the branch
 git checkout -b $branchName
+
+# Make PowerShell aware of UTF-8 if it is using version below 7.0
+$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 Write-Host "✅ Created and switched to branch '$branchName'"
