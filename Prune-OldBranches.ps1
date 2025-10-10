@@ -32,13 +32,19 @@ ForEach-Object {
             else {
                 Write-Host "Branch: $branch"
                 Write-Host "Last updated: $($date.ToString('yyy-MM-dd'))"
-                $ans = $true
+                $ans = "y"
                 if (-not $Force) {
                     $ans = Read-Host "Do you want to delete (y/n)?"
                 }
                 if ($ans -match "y") {
-                    git branch -d $branch > $null
-                    $returnCode = $LASTEXITCODE
+                    $returnCode = 1
+                    if ($Force) {
+                        git branch -D $branch > $null
+                        $returnCode = $LASTEXITCODE
+                    } else {
+                        git branch -d $branch > $null
+                        $returnCode = $LASTEXITCODE
+                    }
                     if ($returnCode -eq 0) {
                         Write-Host "Removed branch $branch successfully"
                     }
