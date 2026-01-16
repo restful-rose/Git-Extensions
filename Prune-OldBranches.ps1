@@ -39,11 +39,16 @@ ForEach-Object {
                 if ($ans -match "y") {
                     $returnCode = 1
                     if ($Force) {
-                        git branch -D $branch > $null
+                        git branch -D -- $branch > $null
                         $returnCode = $LASTEXITCODE
                     } else {
-                        git branch -d $branch > $null
+                        git branch -d -- $branch > $null
                         $returnCode = $LASTEXITCODE
+
+                        if ($returnCode -ne 0) {
+                            git branch -D -- $branch > $null
+                            $returnCode = $LASTEXITCODE
+                        }
                     }
                     if ($returnCode -eq 0) {
                         Write-Host "Removed branch $branch successfully"
