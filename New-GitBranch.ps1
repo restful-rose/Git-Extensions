@@ -43,7 +43,7 @@ if (-not (Is-GitRepo)) {
 $sanitizedDescription = $Description -replace '[^\w\-]', '-' -replace '-{2,}', '-'
 
 # Create ticket id
-$TicketId = "SKU-" + $TicketId
+$TicketId = "KODE-" + $TicketId
 
 # Create branch name
 $branchName = "$Category/$TicketId" + "_" + $sanitizedDescription
